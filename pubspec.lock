@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -64,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.40.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -128,6 +142,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.1"
+  lint:
+    dependency: transitive
+    description:
+      name: lint
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.6.0"
   matcher:
     dependency: transitive
     description:
@@ -245,6 +266,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  styled_widget:
+    dependency: "direct main"
+    description:
+      name: styled_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0+3"
   term_glyph:
     dependency: transitive
     description:
