@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:hot_source_app/sizing.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class InfoPage extends StatefulWidget {
@@ -23,52 +24,93 @@ class InfoState extends State<InfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    Sizing _size = Sizing(context: context);
+
+    TextStyle numberStyle = TextStyle(
+        fontFamily: 'Numbers',
+        color: Colors.teal,
+        fontSize: _size.height(percent: 5));
+    TextStyle upperStyle = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: _size.height(percent: 12));
+    TextStyle numberTitleStyle = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: _size.height(percent: 1.5));
+
+    numbers({String mode = 'temperature', double value = 0}) {
+      double titlePadding = _size.height(percent: 3);
+      String _titleUpper = '';
+      String _title = '';
+      String _display = value.toStringAsFixed(1);
+      if (mode == 'temperature') {
+        titlePadding = _size.height(percent: 5.5);
+
+        _titleUpper = 'T';
+        _title = 'emperature';
+        _display = '$_display°C';
+      } else if (mode == 'heatwaveForecast') {
+        titlePadding = _size.height(percent: 3.5);
+
+        _titleUpper = 'H';
+        _title = 'eatwave\nForecast';
+        _display = '$_display %';
+      }
+      return Container(
+        height: _size.height(percent: 15),
+        width: _size.width(percent: 50),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _titleUpper,
+              style: upperStyle,
+              textAlign: TextAlign.center,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: titlePadding),
+              child: Column(
+                children: [
+                  Text(
+                    _title,
+                    style: numberTitleStyle,
+                    textAlign: TextAlign.left,
+                  ),
+                  Text(
+                    _display,
+                    style: numberStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return (Container(
-      child: Column(
+      child: ListView(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.all(5),
-                height: 100,
-                width: 100,
-                child: Text(
-                  "溫度",
-                  textAlign: TextAlign.center,
-                ),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 1, color: Colors.red)),
-              ),
-              Container(
-                height: 100,
-                width: 100,
-                child: Text(
-                  "熱浪",
-                  textAlign: TextAlign.center,
-                ),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 1, color: Colors.red)),
-              ),
+              numbers(mode: 'temperature', value: 85.555),
+              numbers(mode: 'heatwaveForecast', value: 50)
             ],
           ),
           Container(
-            child: Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 16.0, left: 6.0, top: 15, bottom: 15),
-                child: _LineChart(isShowingMainData: isShowingMainData),
-              ),
+            height: _size.height(percent: 37),
+            width: _size.width(),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  _size.width(percent: 1),
+                  _size.height(percent: 2),
+                  _size.height(percent: 2),
+                  _size.width(percent: 2)),
+              child: _LineChart(isShowingMainData: isShowingMainData),
             ),
           ),
           Container(
-            child: Expanded(child: UserCard()),
-            decoration: BoxDecoration(
-                // shape: BoxShape.,
-                border: Border.all(width: 10, color: Colors.white)),
-          )
+              padding: EdgeInsets.all(_size.width(percent: 2)),
+              child: UserCard()),
         ],
       ),
     ));
@@ -84,7 +126,6 @@ class UserCard extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
-          
           ),
         ).padding(bottom: 5),
       ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
@@ -99,8 +140,8 @@ class UserCard extends StatelessWidget {
         .padding(vertical: 10);
   }
 
-  Widget _buildUserStatsItem(String value ) => <Widget>[
-        Text(value).fontSize(20).textColor(Colors.white).padding(bottom: 5)        
+  Widget _buildUserStatsItem(String value) => <Widget>[
+        Text(value).fontSize(20).textColor(Colors.white).padding(bottom: 5)
       ].toColumn();
 
   @override
