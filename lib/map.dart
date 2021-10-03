@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:hot_source_app/citys.dart';
 import 'package:latlong2/latlong.dart';
 
 
-const kGoogleApiKey = "AIzaSyADaRIeMSVJNYGP6GMNC9z1ome2CjMN8GE";
 
 class MapPage extends StatefulWidget {
   static final kInitialPosition = LatLng(-33.8567844, 151.213108);
@@ -16,15 +14,7 @@ class MapPage extends StatefulWidget {
 }
 
 class MapState extends State<MapPage> {
-  // List data = [
-  //   City("city1", 51.9, -0.01),
-  //   City("city1", 8.9, -0.01),
-  //   City("city2", 5.9, -0.01),
-  //   City("city3", 39, -0.01),
-  //   City("city4", 16.9, -0.01),
-  //   City("city5", 84.9, -0.01),
 
-  // ];
 
   var selectedPlace;
   @override
