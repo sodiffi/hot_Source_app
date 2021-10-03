@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:hot_source_app/sizing.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class InfoPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class InfoState extends State<InfoPage> {
   double temp = 0;
   double hotWave = 0;
   late bool isShowingMainData;
+  LocalStorage storage = LocalStorage('hot');
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class InfoState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     Sizing _size = Sizing(context: context);
+    
 
     TextStyle numberStyle = TextStyle(
         fontFamily: 'Numbers',
@@ -92,8 +95,8 @@ class InfoState extends State<InfoPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              numbers(mode: 'temperature', value: 85.555),
-              numbers(mode: 'heatwaveForecast', value: 50)
+              numbers(mode: 'temperature', value: 34),
+              numbers(mode: 'heatwaveForecast', value: storage.getItem('percent'))
             ],
           ),
           Container(
@@ -122,52 +125,67 @@ class UserCard extends StatelessWidget {
     return <Widget>[
       <Widget>[
         Text(
-          '建議',
+          'Suggestion',
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
+            color: Colors.blueGrey,
+            fontSize: 28,
           ),
         ).padding(bottom: 5),
-      ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
+      ].toColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max),
     ].toRow();
   }
 
-  Widget _buildUserStats() {
+  Widget _buildUserStats(Sizing size) {
     return <Widget>[
-      _buildUserStatsItem('建議文字'),
+      LayoutBuilder(
+        builder: (context, constraints) => Container(
+          width: size.width(percent: 80),
+          child: _buildUserStatsItem(
+              'You should cool off immediately if you have the following symptoms: headaches, feeling dizzy, loss of appetite, nausea, excessive sweating, cramps, fast breathing and intense thirst.\nIf your body\'s temperature hits 40C (104F), heatstroke can set in, which requires urgent medical help. Danger signs include sweat stopping - the person may feel hot, but dry - and breathing difficulties.'),
+        ),
+      ),
     ]
         .toRow(mainAxisAlignment: MainAxisAlignment.spaceAround)
         .padding(vertical: 10);
   }
 
   Widget _buildUserStatsItem(String value) => <Widget>[
-        Text(value).fontSize(20).textColor(Colors.white).padding(bottom: 5)
+        Text(value).fontSize(20).textColor(Colors.blueGrey).padding(bottom: 5)
       ].toColumn();
 
   @override
   Widget build(BuildContext context) {
-    return <Widget>[_buildUserRow(), _buildUserStats()]
-        .toColumn(mainAxisAlignment: MainAxisAlignment.spaceAround)
+    return <Widget>[_buildUserRow(), _buildUserStats(Sizing(context: context))]
+        .toColumn(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        )
         .padding(horizontal: 20, vertical: 10)
         .decorated(
-            color: Color(0xff3977ff), borderRadius: BorderRadius.circular(20))
+            color: Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(20))
         .elevation(
           5,
-          shadowColor: Color(0xff3977ff),
+          shadowColor: Theme.of(context).primaryColorLight,
           borderRadius: BorderRadius.circular(20),
         )
-        .height(175)
         .alignment(Alignment.center);
   }
 }
 
 class _LineChart extends StatelessWidget {
-  const _LineChart({required this.isShowingMainData});
+   _LineChart({required this.isShowingMainData});
 
   final bool isShowingMainData;
+  LocalStorage storage = LocalStorage('hot');
+  List<String> days =[];
+  List<double> temps = [];
 
   @override
   Widget build(BuildContext context) {
+    days = storage.getItem('days');
+    temps = storage.getItem('temps');
     return LineChart(
       sampleData1,
       swapAnimationDuration: const Duration(milliseconds: 250),
@@ -180,9 +198,9 @@ class _LineChart extends StatelessWidget {
         titlesData: titlesData1,
         borderData: borderData,
         lineBarsData: lineBarsData1,
-        minX: 0,
-        maxX: 14,
-        maxY: 4,
+        minX: 1,
+        maxX: 7,
+        maxY: 50,
         minY: 0,
       );
 
@@ -200,14 +218,16 @@ class _LineChart extends StatelessWidget {
         leftTitles: leftTitles(
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
+              case 10:
+                return '10';
+              case 20:
+                return '20';
+              case 30:
+                return '30';
+              case 40:
+                return '40';
+              case 50:
+                return '50';
             }
             return '';
           },
@@ -243,12 +263,20 @@ class _LineChart extends StatelessWidget {
         ),
         getTitles: (value) {
           switch (value.toInt()) {
+            case 1:
+              return days[days.length-1];
             case 2:
-              return 'SEPT';
+              return days[days.length-2];
+            case 3:
+              return days[days.length-3];
+            case 4:
+              return days[days.length-4];
+            case 5:
+              return days[days.length-5];
+            case 6:
+              return days[days.length-6];
             case 7:
-              return 'OCT';
-            case 12:
-              return 'DEC';
+              return days[days.length-7];
           }
           return '';
         },
@@ -274,13 +302,13 @@ class _LineChart extends StatelessWidget {
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 1.5),
-          FlSpot(5, 1.4),
-          FlSpot(7, 3.4),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
+          FlSpot(1, temps[temps.length-1]-273.15),
+          FlSpot(2, temps[temps.length-2]-273.15),
+          FlSpot(3, temps[temps.length-3]-273.15),
+          FlSpot(4, temps[temps.length-4]-273.15),
+          FlSpot(5, temps[temps.length-5]-273.15),
+          FlSpot(6, temps[temps.length-6]-273.15),
+          FlSpot(7, temps[temps.length-7]-273.15),
         ],
       );
 }
