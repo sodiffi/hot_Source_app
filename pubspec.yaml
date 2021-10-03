@@ -9,9 +9,8 @@ environment:
 
 dependencies:
   flutter:
-    sdk: flutter
-  flutter_google_places: ^0.3.0
-  fl_chart: ^0.40.0
+    sdk: flutter 
+  fl_chart: ^0.40.0 
   styled_widget: ^0.4.0+3
   cupertino_icons: ^1.0.2
   flutter_map: ^0.14.0
