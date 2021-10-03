@@ -22,7 +22,7 @@ Then,  “city names” will be sent back to the hot_source server to get values
  ## Install
 Click the green Clone button, then press Download. The selected files will be downloaded in ZIP files.
  > Click the green Clone, then press Download. The selected files will be downloaded in ZIP files.
- ### 需要
+ ### Requirements
  * [flutter_environment](https://flutter.dev/docs/get-started/install)
  * [flutter_map](https://pub.dev/packages/flutter_map)
  * [fl_chart](https://pub.dev/packages/fl_chart)
