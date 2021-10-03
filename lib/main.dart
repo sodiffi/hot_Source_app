@@ -14,7 +14,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hot Source',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xfff86424),
+        primaryColorLight: Color(0xffffe7be),
+        appBarTheme: AppBarTheme(color: Color(0xfff86424)),
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(selectedItemColor: Color(0xfff86424)),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(backgroundColor: Colors.white)
       ),
       home: MyHomePage(title: 'Hot Source'),
     );
