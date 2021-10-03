@@ -1,6 +1,6 @@
 name: hot_source_app
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -14,12 +14,35 @@ dependencies:
   flutter_map:
   styled_widget: ^0.4.0+3
   cupertino_icons: ^1.0.2
+  flutter_map: ^0.14.0
+  latlong2: ^0.8.1
+  csv: ^5.0.0
+  http:
+  localstorage:
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
-flutter: 
+flutter:
   uses-material-design: true
 
-  
+  assets:
+    - assets/
+    
+  fonts:
+    - family: Words
+      fonts:
+        - asset: assets/fonts/TurretRoad-Regular.ttf
+        - asset: assets/fonts/TurretRoad-ExtraLight.ttf
+          weight: 100
+        - asset: assets/fonts/TurretRoad-Light.ttf
+          weight: 300
+        - asset: assets/fonts/TurretRoad-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/TurretRoad-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/TurretRoad-ExtraBold.ttf
+          weight: 900
+    - family: Numbers
+      fonts:
+        - asset: assets/fonts/ZCOOLQingKeHuangYou-Regular.ttf
